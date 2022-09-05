@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import ListMovies from "./ListMovies";
 
-const Test = () =>  {
+const Test = () => {
   return (
-    <div>Test</div>
-  )
-}
+    <div>
+      <ListMovies />
+    </div>
+  );
+};
 
-export default Test
+export default Test;

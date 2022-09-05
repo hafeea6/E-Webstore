@@ -1,26 +1,53 @@
-import { collection, getDocs } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
-import { db } from '../lib/init-firebase';
+import { getDocs, onSnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { movieCollectionRef } from "../lib/firestore.collection";
+
+type MovieProps = {
+  data: MovieDataProps;
+  id: any;
+};
+
+type MovieDataProps = {
+  name: any;
+};
 
 const ListMovies = () => {
+  const [movies, setMovies] = useState<any>([]);
 
-    const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    // getMovies();
+    const unsubscribe = onSnapshot(movieCollectionRef, (snapshot) => {
+      setMovies(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
-    useEffect(() => {
-      getMovies();
-    }, [])
-    
+  const getMovies = () => {
+    const docs = getDocs(movieCollectionRef)
+      .then((response) => {
+        const movies = response.docs.map((doc) => ({
+          data: doc.data(),
+          id: doc.id,
+        }));
 
-    const getMovies = () => {
-        const movieColRef = collection(db, 'movies');
-        const docs = getDocs(movieColRef).then(response => {
-            console.log(response)
-        }).catch(err => console.log(err));
-    }
+        console.log(movies);
+        setMovies(movies);
+      })
+      .catch((err) => console.log(err));
+  };
 
-    return (
-    <div>ListMovies</div>
-  )
-}
+  return (
+    <div>
+      <button onClick={() => getMovies()}>Refreach Movies</button>
+      <ul>
+        {movies.map((movie: MovieProps) => (
+          <li key={movie.id}>{movie.data.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-export default ListMovies
+export default ListMovies;

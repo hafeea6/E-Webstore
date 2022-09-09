@@ -4,6 +4,7 @@ import { movieCollectionRef } from "../lib/firestore.collection";
 
 const AddMovie = () => {
   const [name, setName] = useState("");
+  const alreadyEntered: any[] = [];
   const onClickHandle = (e: any) => {
     e.preventDefault();
     if (name === "") {
@@ -23,12 +24,27 @@ const AddMovie = () => {
           id="name"
           type={"text"}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
         />
         <button
           type="submit"
           onClick={(e) => {
-            onClickHandle(e);
+            if (alreadyEntered.length > 0) {
+              alreadyEntered.forEach((element) => {
+                if (element === name) {
+                  alert("Already added");
+                  e.preventDefault();
+                } else {
+                  onClickHandle(e);
+                  alreadyEntered.push(name);
+                }
+              });
+            } else {
+              onClickHandle(e);
+              alreadyEntered.push(name);
+            }
           }}
         >
           Submit

@@ -1,10 +1,9 @@
 import { addDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import { useState } from "react";
 import { movieCollectionRef } from "../lib/firestore.collection";
 
-const AddMovie = () => {
+const EditMovie = () => {
   const [name, setName] = useState("");
-  const alreadyEntered: any[] = [];
   const onClickHandle = (e: any) => {
     e.preventDefault();
     if (name === "") {
@@ -16,7 +15,7 @@ const AddMovie = () => {
   };
   return (
     <div>
-      <h1>Add movie</h1>
+      <h1>Edit movie</h1>
 
       <form>
         <label htmlFor="name">Movie name</label>
@@ -24,28 +23,12 @@ const AddMovie = () => {
           id="name"
           type={"text"}
           value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
+          onChange={(e) => setName(e.target.value)}
         />
         <button
           type="submit"
           onClick={(e) => {
-            if (alreadyEntered.length > 0) {
-              alreadyEntered.forEach((element) => {
-                if (element === name) {
-                  alert("Already added");
-                  e.preventDefault();
-                } else {
-                  onClickHandle(e);
-                  alreadyEntered.push(name);
-                }
-              });
-            } else {
-              onClickHandle(e);
-              alreadyEntered.push(name);
-            }
-            setName("");
+            onClickHandle(e);
           }}
         >
           Submit
@@ -55,4 +38,4 @@ const AddMovie = () => {
   );
 };
 
-export default AddMovie;
+export default EditMovie;

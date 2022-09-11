@@ -1,6 +1,7 @@
-import { getDocs, onSnapshot } from "firebase/firestore";
+import { deleteDoc, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { movieCollectionRef } from "../lib/firestore.collection";
+import { db } from "../lib/init-firebase";
 
 type MovieProps = {
   data: MovieDataProps;
@@ -38,12 +39,23 @@ const ListMovies = () => {
       .catch((err) => console.log(err));
   };
 
+  const deleteHandle = (id: string) => {
+    const docRef = doc(db, "movies", id);
+
+    deleteDoc(docRef)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err.message));
+  };
+
   return (
     <div>
       <button onClick={() => getMovies()}>Refreach Movies</button>
       <ul>
         {movies.map((movie: MovieProps) => (
-          <li key={movie.id}>{movie.data.name}</li>
+          <div>
+            <li key={movie.id}>{movie.data.name}</li>
+            <button onClick={() => deleteHandle(movie.id)}>Delete Movie</button>
+          </div>
         ))}
       </ul>
     </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import AddMovie from "./AddMovie";
+import EditMovie from "./EditMovie";
 import ListMovies from "./ListMovies";
 
 const Test = () => {
@@ -7,6 +8,7 @@ const Test = () => {
     <div>
       <ListMovies />
       <AddMovie />
+      <EditMovie />
     </div>
   );
 };

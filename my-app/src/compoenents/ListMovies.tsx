@@ -33,7 +33,6 @@ const ListMovies = () => {
           id: doc.id,
         }));
 
-        console.log(movies);
         setMovies(movies);
       })
       .catch((err) => console.log(err));
@@ -53,7 +52,9 @@ const ListMovies = () => {
       <ul>
         {movies.map((movie: MovieProps) => (
           <div>
-            <li key={movie.id}>{movie.data.name}</li>
+            <li key={movie.id}>
+              {movie.data.name} | Id: {movie.id}
+            </li>
             <button onClick={() => deleteHandle(movie.id)}>Delete Movie</button>
           </div>
         ))}

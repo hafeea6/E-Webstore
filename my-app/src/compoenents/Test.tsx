@@ -1,16 +1,7 @@
-import React from "react";
-import AddMovie from "./AddMovie";
-import EditMovie from "./EditMovie";
-import ListMovies from "./ListMovies";
-
-const Test = () => {
+export const Test = () => {
   return (
     <div>
-      <ListMovies />
-      <AddMovie />
-      <EditMovie />
+      <h1>You can use this page for testing stuff</h1>
     </div>
   );
 };
-
-export default Test;
